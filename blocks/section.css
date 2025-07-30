@@ -1,0 +1,30 @@
+.section {
+  padding: 40px 0 64px;
+}
+
+.section__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.section__title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 32px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.section__add-btn {
+  width: 60px;
+  height: 40px;
+  background: var(--red) url(../images/add-icon.svg) center no-repeat;
+  background-size: 22px;
+  border: 2px solid var(--red);
+  border-radius: 6px;
+}
+
+.section__add-btn:hover {
+  opacity: 0.8;
+}

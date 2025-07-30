@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Roboto&family=Rock+Salt&display=swap');
+
+:root {
+  --white: #fff;
+  --red: #aa0505;
+  --gray: #959595;
+  --blue: #56c5db;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, button, input, textarea {
+  font: 400 16px "Roboto", sans-serif;
+}
+
+li { 
+  list-style-type: none; 
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}

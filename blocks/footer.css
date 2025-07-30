@@ -1,0 +1,44 @@
+.footer {
+  background: var(--red);
+  padding: 16px 0;
+}
+
+.footer__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__title {
+  font-family: "Rock Salt", cursive;
+  color: var(--white);
+}
+
+.footer__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__title--medium {
+  font-size: 26px;
+}
+
+.footer__item + .footer__item {
+  margin-left: 16px;
+}
+
+.footer__item img {
+  width: 32px;
+  height: 32px;
+}
+
+@media (max-width: 470px) {
+  .footer__container {
+    flex-direction: column;
+  }
+
+  .footer__title--medium {
+    margin-bottom: 16px;
+  }
+}
