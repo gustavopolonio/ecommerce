@@ -9,7 +9,6 @@
 .header__nav {
   width: 100%;
   border-bottom: 1px solid var(--white);
-  margin-bottom: 16px;
 }
 
 .header__nav-list {
@@ -31,6 +30,8 @@
 
 .header__title-container {
   position: relative;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .header__edit-btn {
@@ -51,14 +52,13 @@
 .header__title {
   font-family: "Rock Salt", cursive;
   color: var(--white);
-}
-
-.header__title--large {
+  text-align: center;
   font-size: 54px;
 }
 
-@media (max-width: 584px) {
-  .header__title--large {
+@media (max-width: 658px) {
+  .header__title {
     font-size: 36px;
+    line-height: 64px;
   }
 }
