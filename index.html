@@ -34,7 +34,7 @@
         </div>
 
         <div class="products">
-          <div class="product">
+          <!-- <div class="product">
             <strong class="product__title">Poster 1</strong>
             <img
               src="./images/poster1.png"
@@ -84,7 +84,7 @@
               <span class="product__price">R$79,99</span>
               <button class="product__bookmark-btn"></button>
             </div>
-          </div>
+          </div> -->
         </div>
       </section>
     </main>
@@ -171,6 +171,17 @@
         </form>
       </div>
     </div>
+
+    <template id="product-template">
+      <div class="product">
+        <strong class="product__title"></strong>
+        <img src="" alt="" class="product__image" />
+        <div class="product__price-container">
+          <span class="product__price"></span>
+          <button class="product__bookmark-btn"></button>
+        </div>
+      </div>
+    </template>
 
     <script src="./index.js"></script>
   </body>

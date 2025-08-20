@@ -17,6 +17,31 @@ const productNameInput = document.querySelector(
 );
 const productURLInput = document.querySelector(".popup__input_type_url");
 const productPriceInput = document.querySelector(".popup__input_type_price");
+const productTemplate = document.querySelector("#product-template").content;
+const productsContainer = document.querySelector(".products");
+
+const initialProducts = [
+  {
+    name: "Poster 1",
+    imageUrl: "./images/poster1.png",
+    price: "29,99",
+  },
+  {
+    name: "Poster 2",
+    imageUrl: "./images/poster2.png",
+    price: "39,99",
+  },
+  {
+    name: "Poster 3",
+    imageUrl: "./images/poster3.png",
+    price: "19,99",
+  },
+  {
+    name: "Poster 4",
+    imageUrl: "./images/poster4.png",
+    price: "79,99",
+  },
+];
 
 function handleEscClick(event) {
   console.log(event.key);
@@ -74,25 +99,33 @@ function handleClosePopup(event) {
 function handleCreateProduct(event) {
   event.preventDefault();
 
-  const productsContainer = document.querySelector(".products");
+  const newProduct = {
+    name: productNameInput.value,
+    imageUrl: productURLInput.value,
+    price: productPriceInput.value,
+  };
 
-  productsContainer.insertAdjacentHTML(
-    "afterbegin",
-    `
-    <div class="product">
-      <strong class="product__title">${productNameInput.value}</strong>
-      <img
-        src=${productURLInput.value}
-        alt=${productNameInput.value}
-        class="product__image"
-      />
-      <div class="product__price-container">
-        <span class="product__price">R$${productPriceInput.value}</span>
-        <button class="product__bookmark-btn"></button>
-      </div>
-    </div>
-    `
-  );
+  renderProduct(newProduct);
+
+  // const productsContainer = document.querySelector(".products");
+
+  // productsContainer.insertAdjacentHTML(
+  //   "afterbegin",
+  //   `
+  //   <div class="product">
+  //     <strong class="product__title">${productNameInput.value}</strong>
+  //     <img
+  //       src=${productURLInput.value}
+  //       alt=${productNameInput.value}
+  //       class="product__image"
+  //     />
+  //     <div class="product__price-container">
+  //       <span class="product__price">R$${productPriceInput.value}</span>
+  //       <button class="product__bookmark-btn"></button>
+  //     </div>
+  //   </div>
+  //   `
+  // );
 
   closePopup(addProductPopup);
   addProductForm.reset();
@@ -106,3 +139,25 @@ addProductForm.addEventListener("submit", handleCreateProduct);
 
 editPopup.addEventListener("click", handleClosePopup);
 addProductPopup.addEventListener("click", handleClosePopup);
+
+function renderProduct(product) {
+  const productElement = productTemplate
+    .querySelector(".product")
+    .cloneNode(true);
+
+  const title = productElement.querySelector(".product__title");
+  title.textContent = product.name;
+
+  const image = productElement.querySelector(".product__image");
+  image.src = product.imageUrl;
+  image.alt = product.name;
+
+  const price = productElement.querySelector(".product__price");
+  price.textContent = `R$ ${product.price}`;
+
+  productsContainer.prepend(productElement);
+}
+
+initialProducts.forEach((product) => {
+  renderProduct(product);
+});
