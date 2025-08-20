@@ -107,26 +107,6 @@ function handleCreateProduct(event) {
 
   renderProduct(newProduct);
 
-  // const productsContainer = document.querySelector(".products");
-
-  // productsContainer.insertAdjacentHTML(
-  //   "afterbegin",
-  //   `
-  //   <div class="product">
-  //     <strong class="product__title">${productNameInput.value}</strong>
-  //     <img
-  //       src=${productURLInput.value}
-  //       alt=${productNameInput.value}
-  //       class="product__image"
-  //     />
-  //     <div class="product__price-container">
-  //       <span class="product__price">R$${productPriceInput.value}</span>
-  //       <button class="product__bookmark-btn"></button>
-  //     </div>
-  //   </div>
-  //   `
-  // );
-
   closePopup(addProductPopup);
   addProductForm.reset();
 }
@@ -154,6 +134,14 @@ function renderProduct(product) {
 
   const price = productElement.querySelector(".product__price");
   price.textContent = `R$ ${product.price}`;
+
+  const removeProductButton = productElement.querySelector(
+    ".product__remove-btn"
+  );
+
+  removeProductButton.addEventListener("click", () => {
+    productElement.remove();
+  });
 
   productsContainer.prepend(productElement);
 }
