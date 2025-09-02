@@ -84,7 +84,7 @@ function handleEditStore(event) {
   }
 
   storeName.textContent = storeNameInput.value;
-  closePopup();
+  closePopup(editPopup);
 }
 
 function handleClosePopup(event) {
