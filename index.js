@@ -44,10 +44,9 @@ const initialProducts = [
 ];
 
 function handleEscClick(event) {
-  console.log(event.key);
-
   if (event.key === "Escape") {
-    closePopup();
+    const popupOpened = document.querySelector(".popup_is-opened")
+    closePopup(popupOpened);
   }
 }
 
@@ -65,6 +64,8 @@ function openEditStorePopup() {
 
 function openAddProductPopup() {
   openPopup(addProductPopup);
+
+  document.addEventListener("keyup", handleEscClick);
 }
 
 function closePopup(popup) {
