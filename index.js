@@ -19,6 +19,7 @@ const productURLInput = document.querySelector(".popup__input_type_url");
 const productPriceInput = document.querySelector(".popup__input_type_price");
 const productTemplate = document.querySelector("#product-template").content;
 const productsContainer = document.querySelector(".products");
+const searchBox = document.querySelector(".search-box")
 
 const initialProducts = [
   {
@@ -106,10 +107,22 @@ function handleCreateProduct(event) {
     price: productPriceInput.value,
   };
 
+  initialProducts.push(newProduct)
   renderProduct(newProduct);
 
   closePopup(addProductPopup);
   addProductForm.reset();
+}
+
+function renderProducts(products) {
+  // apagar todos os produtos anterioes - div
+  while (productsContainer.lastElementChild) {
+    productsContainer.removeChild(productsContainer.lastElementChild)
+  }
+
+  products.forEach((product) => {
+    renderProduct(product)
+  })
 }
 
 editPopupButton.addEventListener("click", openEditStorePopup);
@@ -120,6 +133,16 @@ addProductForm.addEventListener("submit", handleCreateProduct);
 
 editPopup.addEventListener("click", handleClosePopup);
 addProductPopup.addEventListener("click", handleClosePopup);
+
+searchBox.addEventListener("input", (e) => {
+  const searchTerm = e.target.value
+  
+  const filteredProducts = initialProducts.filter((product) => {
+    return product.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+  })
+
+  renderProducts(filteredProducts)
+})
 
 function renderProduct(product) {
   const productElement = productTemplate
@@ -142,6 +165,12 @@ function renderProduct(product) {
 
   removeProductButton.addEventListener("click", () => {
     productElement.remove();
+
+    const deletedProductIndex = initialProducts.findIndex((p) => p.name === product.name)
+    
+    if (deletedProductIndex !== -1) {
+      initialProducts.splice(deletedProductIndex, 1)
+    }
   });
 
   productsContainer.prepend(productElement);
