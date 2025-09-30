@@ -1,7 +1,5 @@
-// Abrir o popup de editar a loja
 
-// 1. pegar o clique no botao do lapis
-// 2. Fazer o popup aparecer
+import { Product } from "./scripts/Product.js";
 
 const editPopupButton = document.querySelector(".header__edit-btn");
 const editPopup = document.querySelector("#edit-popup");
@@ -173,9 +171,16 @@ function renderProduct(product) {
     }
   });
 
-  productsContainer.prepend(productElement);
+  // productsContainer.prepend(productElement);
 }
 
 initialProducts.forEach((product) => {
   renderProduct(product);
 });
+
+initialProducts.forEach((product) => {
+  const productInstance = new Product({ name: product.name, imageUrl: product.imageUrl, price: product.price })
+  const newProduct = productInstance.generateProduct()
+  console.log(newProduct);
+  productsContainer.prepend(newProduct);
+})
