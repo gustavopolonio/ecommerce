@@ -123,13 +123,17 @@
         ></button>
         <h3 class="popup__title">Editar Loja</h3>
 
-        <form class="popup__form" id="edit-store-form">
+        <form class="popup__form" id="edit-store-form" novalidate>
           <input
             class="popup__input popup__input_type_name"
-            name="name"
+            name="store-name"
             placeholder="Nome da loja"
             type="text"
+            required
+            minlength="3"
+            maxlength="8"
           />
+          <span class="popup__error" id="store-name-error"></span>
 
           <button class="popup__button" type="submit">Salvar</button>
         </form>
@@ -145,20 +149,26 @@
         ></button>
         <h3 class="popup__title">Adicionar Produto</h3>
 
-        <form class="popup__form" id="add-product-form">
+        <form class="popup__form" id="add-product-form" novalidate>
           <input
             class="popup__input popup__input_type_product_name"
             name="product-name"
             placeholder="Nome do produto"
             type="text"
+            required
+            minlength="2"
+            maxlength="10"
           />
+          <span class="popup__error" id="product-name-error"></span>
 
           <input
             class="popup__input popup__input_type_url"
             name="product-url"
             placeholder="URL imagem do produto"
             type="url"
+            required
           />
+          <span class="popup__error" id="product-url-error"></span>
 
           <input
             class="popup__input popup__input_type_price"
@@ -167,7 +177,9 @@
             type="number"
             step="0.01"
             min="0"
+            required
           />
+          <span class="popup__error" id="product-price-error"></span>
 
           <button class="popup__button" type="submit">Criar</button>
         </form>
