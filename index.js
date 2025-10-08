@@ -1,5 +1,7 @@
 
+import { FormValidator } from "./scripts/FormValidator.js";
 import { Product } from "./scripts/Product.js";
+import { formValidation } from "./utils.js";
 
 const editPopupButton = document.querySelector(".header__edit-btn");
 const editPopup = document.querySelector("#edit-popup");
@@ -67,8 +69,31 @@ function openAddProductPopup() {
   document.addEventListener("keyup", handleEscClick);
 }
 
+const editStoreFormValidator = new FormValidator(
+  formValidation,
+  editStoreForm
+)
+editStoreFormValidator.enableValidation()
+
+const createProductFormValidator = new FormValidator(
+  formValidation,
+  addProductForm
+)
+createProductFormValidator.enableValidation()
+
 function closePopup(popup) {
   popup.classList.remove("popup_is-opened");
+
+  console.log(popup);
+  
+  // reset form
+  if (popup.id === 'edit-popup') {
+    editStoreFormValidator.resetValidation()
+  }
+
+  if (popup.id === 'add-product-popup') {
+    createProductFormValidator.resetValidation()
+  }
 
   document.removeEventListener("keyup", handleEscClick);
 }
@@ -143,44 +168,21 @@ searchBox.addEventListener("input", (e) => {
 })
 
 function renderProduct(product) {
-  const productElement = productTemplate
-    .querySelector(".product")
-    .cloneNode(true);
+  const productInstance = new Product({ 
+    name: product.name,
+    imageUrl: product.imageUrl,
+    price: product.price 
+  })
+  const newProduct = productInstance.generateProduct()
 
-  const title = productElement.querySelector(".product__title");
-  title.textContent = product.name;
-
-  const image = productElement.querySelector(".product__image");
-  image.src = product.imageUrl;
-  image.alt = product.name;
-
-  const price = productElement.querySelector(".product__price");
-  price.textContent = `R$ ${product.price}`;
-
-  const removeProductButton = productElement.querySelector(
-    ".product__remove-btn"
-  );
-
-  removeProductButton.addEventListener("click", () => {
-    productElement.remove();
-
-    const deletedProductIndex = initialProducts.findIndex((p) => p.name === product.name)
-    
-    if (deletedProductIndex !== -1) {
-      initialProducts.splice(deletedProductIndex, 1)
-    }
-  });
-
-  // productsContainer.prepend(productElement);
+  productsContainer.prepend(newProduct);
 }
 
 initialProducts.forEach((product) => {
   renderProduct(product);
 });
 
-initialProducts.forEach((product) => {
-  const productInstance = new Product({ name: product.name, imageUrl: product.imageUrl, price: product.price })
-  const newProduct = productInstance.generateProduct()
-  console.log(newProduct);
-  productsContainer.prepend(newProduct);
-})
+
+
+// new FormValidator()
+// new FormValidator()

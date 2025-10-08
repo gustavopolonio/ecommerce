@@ -90,6 +90,31 @@
   display: flex;
 }
 
+.popup__input_type_error {
+  border-bottom: 1px solid #ff0000;
+}
+
+.popup__error {
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
+  opacity: 0;
+  /* position: absolute; */
+  /* top: calc(100% + 5px); */
+  /* left: 0; */
+}
+
+.popup__error_visible {
+  opacity: 1;
+}
+
+.popup__button_disabled {
+  border: 1px solid #000;
+  opacity: 0.2;
+  background: #fff;
+  color: #000;
+}
+
 @media screen and (max-width: 544px) {
   .popup__button {
     font-size: 14px;

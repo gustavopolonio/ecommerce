@@ -11,6 +11,17 @@ export class Product {
     return productElement
   }
 
+  // Criada com Arrow fç - this é o contexto em que a arrow foi criada
+  // Criada jeito tradicional - fç é executada
+
+  _deleteProduct() {
+    this._productElement.remove()
+  }
+
+  _setEventListeners() {
+    this._deleteButton.addEventListener("click", () => this._deleteProduct())
+  }
+
   generateProduct() {
     this._productElement = this._getTemplate()
 
@@ -23,6 +34,10 @@ export class Product {
 
     this._priceElement = this._productElement.querySelector(".product__price"); 
     this._priceElement.textContent = `R$ ${this._price}`;
+
+    this._deleteButton = this._productElement.querySelector('.product__remove-btn')
+
+    this._setEventListeners()
 
     return this._productElement
   }
