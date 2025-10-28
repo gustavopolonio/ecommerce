@@ -7,3 +7,9 @@ export const formValidation = {
   errorClass: 'popup__error_visible'
 }
 
+// export const popups = {
+//   editStore: '#edit-store',
+//   create: '#create-product',
+//   ...
+// }
+

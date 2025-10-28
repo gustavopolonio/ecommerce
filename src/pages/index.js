@@ -1,7 +1,8 @@
 
-import { FormValidator } from "./scripts/FormValidator.js";
-import { Product } from "./scripts/Product.js";
-import { formValidation } from "./utils.js";
+import { FormValidator } from "../components/FormValidator.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { Product } from "../components/Product.js";
+import { formValidation } from "../utils/utils.js";
 
 const editPopupButton = document.querySelector(".header__edit-btn");
 const editPopup = document.querySelector("#edit-popup");
@@ -44,29 +45,79 @@ const initialProducts = [
   },
 ];
 
-function handleEscClick(event) {
-  if (event.key === "Escape") {
-    const popupOpened = document.querySelector(".popup_is-opened")
-    closePopup(popupOpened);
-  }
-}
+// function handleEditStore(event) {
+//   event.preventDefault();
 
-function openPopup(popup) {
-  popup.classList.add("popup_is-opened");
-}
+//   storeName.textContent = storeNameInput.value;
+  
+//   closePopup(editPopup);
+// }
+
+const editStorePopup = new PopupWithForm(
+  '#edit-popup',
+  (formValues) => {
+    // Receber os valores dos inputs do form
+    storeName.textContent = formValues['name']
+  },
+  () => editStoreFormValidator.resetValidation()
+)
+
+// function handleCreateProduct(event) {
+//   event.preventDefault();
+
+//   const newProduct = {
+//     name: productNameInput.value,
+//     imageUrl: productURLInput.value,
+//     price: productPriceInput.value,
+//   };
+
+//   initialProducts.push(newProduct)
+//   renderProduct(newProduct);
+
+//   closePopup(addProductPopup);
+//   addProductForm.reset();
+// }
+
+const createProductPopup = new PopupWithForm(
+  '#add-product-popup',
+  (formValues) => {
+    const newProduct = {
+      name: formValues['product-name'],
+      imageUrl: formValues['product-url'],
+      price: formValues['product-price'],
+    };
+
+    initialProducts.push(newProduct)
+    renderProduct(newProduct);
+  },
+  () => createProductFormValidator.resetValidation()
+)
+
+editStorePopup.setEventListeners()
+createProductPopup.setEventListeners()
+
+// function handleEscClick(event) {
+//   if (event.key === "Escape") {
+//     const popupOpened = document.querySelector(".popup_is-opened")
+//     closePopup(popupOpened);
+//   }
+// }
+
+// function openPopup(popup) {
+//   popup.classList.add("popup_is-opened");
+//   document.addEventListener("keyup", handleEscClick);
+// }
 
 function openEditStorePopup() {
-  openPopup(editPopup);
+  // openPopup(editPopup);
+  editStorePopup.open()
 
   storeNameInput.value = storeName.textContent;
-
-  document.addEventListener("keyup", handleEscClick);
 }
 
 function openAddProductPopup() {
-  openPopup(addProductPopup);
-
-  document.addEventListener("keyup", handleEscClick);
+  // openPopup(addProductPopup);
+  createProductPopup.open()
 }
 
 const editStoreFormValidator = new FormValidator(
@@ -81,36 +132,20 @@ const createProductFormValidator = new FormValidator(
 )
 createProductFormValidator.enableValidation()
 
-function closePopup(popup) {
-  popup.classList.remove("popup_is-opened");
-
-  console.log(popup);
+// function closePopup(popup) {
+//   popup.classList.remove("popup_is-opened");
   
-  // reset form
-  if (popup.id === 'edit-popup') {
-    editStoreFormValidator.resetValidation()
-  }
+//   // reset form
+//   if (popup.id === 'edit-popup') {
+//     editStoreFormValidator.resetValidation()
+//   }
 
-  if (popup.id === 'add-product-popup') {
-    createProductFormValidator.resetValidation()
-  }
+//   if (popup.id === 'add-product-popup') {
+//     createProductFormValidator.resetValidation()
+//   }
 
-  document.removeEventListener("keyup", handleEscClick);
-}
-
-function handleEditStore(event) {
-  event.preventDefault();
-
-  const storeNameInputValue = storeNameInput.value;
-
-  if (storeNameInputValue.trim() === "") {
-    alert("Input invalido");
-    return;
-  }
-
-  storeName.textContent = storeNameInput.value;
-  closePopup(editPopup);
-}
+//   document.removeEventListener("keyup", handleEscClick);
+// }
 
 function handleClosePopup(event) {
   if (
@@ -119,22 +154,6 @@ function handleClosePopup(event) {
   ) {
     closePopup(event.currentTarget);
   }
-}
-
-function handleCreateProduct(event) {
-  event.preventDefault();
-
-  const newProduct = {
-    name: productNameInput.value,
-    imageUrl: productURLInput.value,
-    price: productPriceInput.value,
-  };
-
-  initialProducts.push(newProduct)
-  renderProduct(newProduct);
-
-  closePopup(addProductPopup);
-  addProductForm.reset();
 }
 
 function renderProducts(products) {
@@ -151,10 +170,10 @@ function renderProducts(products) {
 editPopupButton.addEventListener("click", openEditStorePopup);
 addProductButton.addEventListener("click", openAddProductPopup);
 
-editStoreForm.addEventListener("submit", handleEditStore);
-addProductForm.addEventListener("submit", handleCreateProduct);
+// editStoreForm.addEventListener("submit", handleEditStore);
+// addProductForm.addEventListener("submit", handleCreateProduct);
 
-editPopup.addEventListener("click", handleClosePopup);
+// editPopup.addEventListener("click", handleClosePopup);
 addProductPopup.addEventListener("click", handleClosePopup);
 
 searchBox.addEventListener("input", (e) => {
