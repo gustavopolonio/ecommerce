@@ -90,6 +90,27 @@
   display: flex;
 }
 
+.popup__content-highlight {
+  max-width: 75vw;
+  max-height: 75vh;
+  width: auto;
+  height: auto;
+  display: flex;
+  position: relative;
+}
+
+
+.popup__image {
+  max-width: 100%;
+}
+
+
+.popup__caption {
+  position: absolute;
+  bottom: 4px;
+}
+
+
 @media screen and (max-width: 544px) {
   .popup__button {
     font-size: 14px;
