@@ -127,7 +127,11 @@
             name="name"
             placeholder="Nome da loja"
             type="text"
+            minlength="3"
+            maxlength="10"
+            required
           />
+          <span class="popup__error" id="name-error"></span>
 
           <button class="popup__button" type="submit">Salvar</button>
         </form>
@@ -149,17 +153,21 @@
             class="popup__input popup__input_type_product_name"
             name="product-name"
             placeholder="Nome do produto"
+            minlength="2"
+            maxlength="10"
+            required
             type="text"
           />
-
+          <span class="popup__error" id="product-name-error"></span>
 
           <input
             class="popup__input popup__input_type_url"
             name="product-url"
             placeholder="URL imagem do produto"
             type="url"
+            required
           />
-
+          <span class="popup__error" id="product-url-error"></span>
 
           <input
             class="popup__input popup__input_type_price"
@@ -168,8 +176,9 @@
             type="number"
             step="0.01"
             min="0"
+            required
           />
-
+          <span class="popup__error" id="product-price-error"></span>
 
           <button class="popup__button" type="submit">Criar</button>
         </form>
@@ -192,6 +201,9 @@
 
     <template id="product-template">
       <div class="product">
+        <button class="product__remove-button">
+          <img src="./images/delete-icon.svg" alt="Trash icon">
+        </button>
         <strong class="product__title"></strong>
         <img
           src=""
@@ -205,6 +217,6 @@
       </div>
     </template>
 
-    <script src="./index.js"></script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
