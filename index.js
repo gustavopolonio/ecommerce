@@ -1,4 +1,5 @@
-import { resetValidation } from "./validate.js";
+import { FormValidator } from "./components/FormValidator.js";
+import { Product } from "./components/Product.js";
 
 const editStorePopupButton = document.querySelector(".header__edit-btn");
 const addProductPopupButton = document.querySelector(".section__add-btn");
@@ -45,37 +46,11 @@ const initialProducts = [
   },
 ];
 
-function renderProduct(product) {
-  const productElement = productTemplate
-    .querySelector(".product")
-    .cloneNode(true);
-  const productTitle = productElement.querySelector(".product__title");
-  const productImage = productElement.querySelector(".product__image");
-  const productPrice = productElement.querySelector(".product__price");
-
-  productTitle.textContent = product.name;
-
-  productImage.src = product.imageUrl;
-  productImage.alt = product.name;
-
-  productPrice.textContent = `R$ ${product.price}`;
-
-  const removeProductButton = productElement.querySelector(
-    ".product__remove-btn",
-  );
-
-  removeProductButton.addEventListener("click", () => {
-    productElement.remove();
-  });
-
-  productImage.addEventListener("click", () => {
-    openHighlightPopup(product);
-  });
-
-  document.querySelector(".products").prepend(productElement);
-}
-
-initialProducts.forEach((product) => renderProduct(product));
+initialProducts.forEach((product) => {
+  const productInstance = new Product(product, "#product-template")
+  const newProduct = productInstance.generateProduct()
+  document.querySelector(".products").prepend(newProduct);
+});
 
 function openPopup(popup) {
   popup.classList.add("popup_is-opened");
@@ -85,17 +60,23 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove("popup_is-opened");
   document.removeEventListener("keyup", handleEscClick);
-  const formToReset = popup.querySelector(".popup__form")
-  resetValidation(formToReset)
+
+  if (popup.id === "edit-popup") {
+    editStoreFormValidatior.resetValidation();
+  }
+
+  if (popup.id === "add-product-popup") {
+    addProductFormValidatior.resetValidation();
+  }
 }
 
-function openHighlightPopup(product) {
-  highlightPopupImage.src = product.imageUrl;
-  highlightPopupImage.alt = product.name;
-  highlightPopupCaption.textContent = product.name;
+// function openHighlightPopup(product) {
+//   highlightPopupImage.src = product.imageUrl;
+//   highlightPopupImage.alt = product.name;
+//   highlightPopupCaption.textContent = product.name;
 
-  openPopup(highlightPopup);
-}
+//   openPopup(highlightPopup);
+// }
 
 function handleEscClick(event) {
   if (event.key === "Escape") {
@@ -122,7 +103,10 @@ function handleCreateProduct(event) {
     price: productPriceInput.value,
   };
 
-  renderProduct(productData);
+  // renderProduct(productData);
+  const productInstance = new Product(productData, "#product-template")
+  const newProduct = productInstance.generateProduct()
+  document.querySelector(".products").prepend(newProduct);
 
   closePopup(addProductPopup);
   addProductForm.reset();
@@ -150,3 +134,31 @@ editStorePopup.addEventListener("click", handleClosePopup);
 highlightPopup.addEventListener("click", handleClosePopup);
 addProductForm.addEventListener("submit", handleCreateProduct);
 editStoreForm.addEventListener("submit", handleEditStore);
+
+
+const editStoreFormValidatior = new FormValidator(
+  {
+    formSelector: "#add-product-form",
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".popup__button",
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__input-error_visible",
+  },
+  editStoreForm,
+);
+
+const addProductFormValidatior = new FormValidator(
+  {
+    formSelector: "#edit-store-form",
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".popup__button",
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__input-error_visible",
+  },
+  addProductForm,
+);
+
+editStoreFormValidatior.enableValidation();
+addProductFormValidatior.enableValidation();
