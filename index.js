@@ -1,4 +1,5 @@
 import { FormValidator } from "./components/FormValidator.js";
+import { PopupWithForm } from "./components/PopupWithForm.js";
 import { Product } from "./components/Product.js";
 
 const editStorePopupButton = document.querySelector(".header__edit-btn");
@@ -70,13 +71,13 @@ function closePopup(popup) {
   }
 }
 
-// function openHighlightPopup(product) {
-//   highlightPopupImage.src = product.imageUrl;
-//   highlightPopupImage.alt = product.name;
-//   highlightPopupCaption.textContent = product.name;
+export function openHighlightPopup(product) {
+  highlightPopupImage.src = product.imageUrl;
+  highlightPopupImage.alt = product.name;
+  highlightPopupCaption.textContent = product.name;
 
-//   openPopup(highlightPopup);
-// }
+  openPopup(highlightPopup);
+}
 
 function handleEscClick(event) {
   if (event.key === "Escape") {
@@ -121,16 +122,47 @@ function handleEditStore(event) {
   editStoreForm.reset();
 }
 
-editStorePopupButton.addEventListener("click", () => {
-  openPopup(editStorePopup);
-});
+const editStorePopupInstance = new PopupWithForm(
+  "#edit-popup",
+  (formValues) => {
+    // AQUI
+    // const dsads = this.getInputValues()
+    storeName.textContent = storeNameInput.value
+
+    closePopup(editStorePopup);
+    editStoreForm.reset();
+  },
+  () => editStoreFormValidatior.resetValidation()
+)
+const createProductPopupInstance = new PopupWithForm(
+  "#add-product-popup",
+  (formValues) => {
+    const productData = {
+      name: formValues.value,
+      imageUrl: formValues.value,
+      price: formValues.value,
+    };
+
+    // renderProduct(productData);
+    const productInstance = new Product(productData, "#product-template")
+    const newProduct = productInstance.generateProduct()
+    document.querySelector(".products").prepend(newProduct);
+  },
+  () => addProductFormValidatior.resetValidation()
+)
+
+editStorePopupInstance.setEventListeners()
+createProductPopupInstance.setEventListeners()
+
+editStorePopupButton.addEventListener("click", () => editStorePopupInstance.open());
 
 addProductPopupButton.addEventListener("click", () => {
-  openPopup(addProductPopup);
+  // openPopup(addProductPopup);
+  createProductPopupInstance.open()
 });
 
-addProductPopup.addEventListener("click", handleClosePopup);
-editStorePopup.addEventListener("click", handleClosePopup);
+// addProductPopup.addEventListener("click", handleClosePopup);
+// editStorePopup.addEventListener("click", handleClosePopup);
 highlightPopup.addEventListener("click", handleClosePopup);
 addProductForm.addEventListener("submit", handleCreateProduct);
 editStoreForm.addEventListener("submit", handleEditStore);

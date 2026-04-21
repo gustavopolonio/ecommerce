@@ -1,9 +1,12 @@
+import { openHighlightPopup } from '../index.js'
+
 export class Product {
-  constructor({ name, imageUrl, price }, productTemplate) {
+  constructor({ name, imageUrl, price }, productTemplate, openHighlightPopup) {
     this.name = name
     this.imageUrl = imageUrl
     this.price = price
     this.productTemplate = productTemplate
+    this._openHighlightPopup = openHighlightPopup
   }
 
   _getTemplate() {
@@ -23,16 +26,24 @@ export class Product {
     this.productElement.remove()
   }
 
-  _setEventListeners() {
+  _setEventListeners(event) {
     // this
     this.removeProductButton.addEventListener('click', () => this._handleProductDelete())
+
+    this.productImage.addEventListener("click", () => {
+      // openHighlightPopup({
+      //   imageUrl: this.imageUrl,
+      //   name: this.name
+      // })
+      this._openHighlightPopup()
+    })
   }
 
   generateProduct() {
     this.productElement = this._getTemplate()
   
     const productTitle = this.productElement.querySelector(".product__title");
-    const productImage = this.productElement.querySelector(".product__image");
+    this.productImage = this.productElement.querySelector(".product__image");
     const productPrice = this.productElement.querySelector(".product__price");
     this.removeProductButton = this.productElement.querySelector(
       ".product__remove-btn",
@@ -40,8 +51,8 @@ export class Product {
 
     productTitle.textContent = this.name
 
-    productImage.src = this.imageUrl
-    productImage.alt = this.name
+    this.productImage.src = this.imageUrl
+    this.productImage.alt = this.name
 
     productPrice.textContent = `R$ ${this.price}`
 
